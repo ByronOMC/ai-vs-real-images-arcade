@@ -7,7 +7,7 @@ import time
 # ==================================================
 # CONFIGURACIÓN API
 # ==================================================
-API_KEY = "AQ.Ab8RN6JQXeosQrJTLn3xC4xHJ8a9GNHzHmfncNX-sM3D28PcOA"
+API_KEY = ""
 client = genai.Client(api_key=API_KEY)
 
 # ==================================================
