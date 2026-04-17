@@ -33,12 +33,18 @@ def dedupe_keep_order(items):
 
 def clean_caption(caption: str) -> str:
     """
-    Limpia escapes, espacios y créditos finales.
+    Limpia escapes, espacios, encoding y créditos finales.
     """
     if not caption:
         return ""
 
-    text = caption.strip()
+    def fix_encoding(text: str) -> str:
+        try:
+            return text.encode('latin1').decode('utf-8')
+        except Exception:
+            return text
+
+    text = fix_encoding(caption.strip())
     text = text.replace('\\"', '"')
     text = re.sub(r"\s+", " ", text).strip()
 

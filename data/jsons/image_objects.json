@@ -43,9 +43,9 @@
     "position": 5,
     "contentUrl": "https://www.reuters.com/resizer/v2/2FQU6YFA3BL77M4CAUC2D2BWKY.jpg?auth=4cc61e20092f370df12787dba2027668189d3d97aa095b2613a4fde4442a5268&width=1200&quality=80",
     "caption": "A foreign tanker carrying Iraqi fuel oil damaged after catching fire in Iraq's territorial waters, following unidentified attacks, near Basra, Iraq, March 12.  At least 22 civilian ships â tankers, container ships and other bulk carriers â have been attacked in the last two weeks. REUTERS/Mohammed Aty",
-    "caption_clean": "A foreign tanker carrying Iraqi fuel oil damaged after catching fire in Iraq's territorial waters, following unidentified attacks, near Basra, Iraq, March 12. At least 22 civilian ships â tankers, container ships and other bulk carriers â have been attacked in the last two weeks.",
+    "caption_clean": "A foreign tanker carrying Iraqi fuel oil damaged after catching fire in Iraq's territorial waters, following unidentified attacks, near Basra, Iraq, March 12. At least 22 civilian ships — tankers, container ships and other bulk carriers — have been attacked in the last two weeks.",
     "caption_incomplete": false,
-    "prompt_base": "A foreign tanker carrying Iraqi fuel oil damaged after catching fire in Iraq's territorial waters, following unidentified attacks, near Basra, Iraq, March 12. At least 22 civilian ships â tankers, container ships and other bulk carriers â have been attacked in the last two weeks."
+    "prompt_base": "A foreign tanker carrying Iraqi fuel oil damaged after catching fire in Iraq's territorial waters, following unidentified attacks, near Basra, Iraq, March 12. At least 22 civilian ships — tankers, container ships and other bulk carriers — have been attacked in the last two weeks."
   },
   {
     "position": 6,
@@ -139,9 +139,9 @@
     "position": 17,
     "contentUrl": "https://www.reuters.com/resizer/v2/C2I2CLE3LJKIVOWTR72ZTXNXDA.jpg?auth=e7c2b9c9433639ef0dfbb404830b9a940ee8e17746bc0efa629e07bef22a86de&width=1200&quality=80",
     "caption": "Hindu devotees are daubed in colored powder in a templeâs premises during Holi celebrations in Ahmedabad, India, March 4. REUTERS/Amit Dave",
-    "caption_clean": "Hindu devotees are daubed in colored powder in a templeâs premises during Holi celebrations in Ahmedabad, India, March 4.",
+    "caption_clean": "Hindu devotees are daubed in colored powder in a temple’s premises during Holi celebrations in Ahmedabad, India, March 4.",
     "caption_incomplete": false,
-    "prompt_base": "Hindu devotees are daubed in colored powder in a templeâs premises during Holi celebrations in Ahmedabad, India, March 4."
+    "prompt_base": "Hindu devotees are daubed in colored powder in a temple’s premises during Holi celebrations in Ahmedabad, India, March 4."
   },
   {
     "position": 18,
@@ -315,9 +315,9 @@
     "position": 39,
     "contentUrl": "https://www.reuters.com/resizer/v2/FVCPOOJYOFJBBAJTAYYW4A745U.jpg?auth=e3884e0c2d9bc956eb7a39da8981628ded88454e85db10123c750da796f26ede&width=1200&quality=80",
     "caption": "People look at a statue depicting U.S. President Donald Trump and convicted sex offender Jeffrey Epstein, entitled âThe King of the Worldâ, on the National Mall in Washington, March 10.  REUTERS/Evelyn Hockstein",
-    "caption_clean": "People look at a statue depicting U.S. President Donald Trump and convicted sex offender Jeffrey Epstein, entitled âThe King of the Worldâ, on the National Mall in Washington, March 10.",
+    "caption_clean": "People look at a statue depicting U.S. President Donald Trump and convicted sex offender Jeffrey Epstein, entitled “The King of the World”, on the National Mall in Washington, March 10.",
     "caption_incomplete": false,
-    "prompt_base": "People look at a statue depicting U.S. President Donald Trump and convicted sex offender Jeffrey Epstein, entitled âThe King of the Worldâ, on the National Mall in Washington, March 10."
+    "prompt_base": "People look at a statue depicting U.S. President Donald Trump and convicted sex offender Jeffrey Epstein, entitled “The King of the World”, on the National Mall in Washington, March 10."
   },
   {
     "position": 40,
