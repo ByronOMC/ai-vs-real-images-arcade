@@ -1,6 +1,5 @@
 import os
 import json
-from datetime import datetime
 from google import genai
 from google.genai import types
 import time
@@ -8,24 +7,34 @@ import time
 # ==================================================
 # CONFIGURACIÓN API
 # ==================================================
-API_KEY = "AIzaSyD4_wC1fTKtaKzz9bjjLwdjZZHoZbVzyyU"
+API_KEY = "AQ.Ab8RN6JQXeosQrJTLn3xC4xHJ8a9GNHzHmfncNX-sM3D28PcOA"
 client = genai.Client(api_key=API_KEY)
+
+# ==================================================
+# PROMPT FIJO GLOBAL
+# ==================================================
+PROMPT_FIJO = """
+Photorealistic image, captured as if taken by a professional photographer using a Canon EOS R5 with a 50mm lens at f/1.8, natural lighting, realistic shadows and highlights, shallow depth of field with soft background blur (bokeh), accurate skin tones and textures, subtle imperfections, slight film grain, true-to-life colors, high dynamic range, documentary photography style, editorial photo, realistic environment, candid moment, no CGI, no illustration, not stylized
+"""
 
 
 def generar_imagenes_gemini():
     # Carpeta donde está este script
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Si el script está dentro de una subcarpeta y quieres subir al proyecto raíz:
+    # Subir al directorio raíz del proyecto
     project_dir = os.path.dirname(base_dir)
 
-    # JSON en proyecto/data/jsons/ImagesData.json
+    # JSON
     json_path = os.path.join(project_dir, "data", "jsons", "image_objects.json")
 
-    # Imágenes en proyecto/data/news
+    # Carpeta destino imágenes
     carpeta = os.path.join(project_dir, "data", "news")
     os.makedirs(carpeta, exist_ok=True)
 
+    # ==================================================
+    # LEER JSON
+    # ==================================================
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             datos = json.load(f)
@@ -42,9 +51,15 @@ def generar_imagenes_gemini():
         print("Error leyendo JSON:", e)
         return
 
+    # ==================================================
+    # GENERAR IMÁGENES
+    # ==================================================
     for i, item in enumerate(datos):
-        prompt_texto = item.get("prompt_base", "Un paisaje futurista")
+        prompt_json = item.get("prompt_base", "Un paisaje futurista")
         position = item.get("position", i)
+
+        # Prompt final combinado
+        prompt_texto = f"{prompt_json}. {PROMPT_FIJO}"
 
         print(f"\nGenerando imagen {i+1}/{len(datos)}")
         print("Prompt:", prompt_texto)
@@ -52,7 +67,7 @@ def generar_imagenes_gemini():
         try:
             response = client.models.generate_content(
                 model="gemini-3.1-flash-image-preview",
-                contents=str(prompt_texto),
+                contents=prompt_texto,
                 config=types.GenerateContentConfig(
                     response_modalities=["TEXT", "IMAGE"]
                 )
