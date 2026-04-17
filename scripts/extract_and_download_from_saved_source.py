@@ -165,8 +165,8 @@ def save_urls(urls: list[str]) -> None:
 def download_images(urls: list[str]) -> int:
     downloaded = 0
 
-    for idx, url in enumerate(urls[:65], start=1):
-        output = NEWS_DIR / f"REAL_{idx:03d}.jpg"
+    for idx, url in enumerate(urls[:65]):
+        output = NEWS_DIR / f"REAL_{idx}.jpg"
         try:
             resp = requests.get(url, headers=HEADERS, timeout=90)
             resp.raise_for_status()
