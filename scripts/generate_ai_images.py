@@ -66,7 +66,7 @@ def generar_imagenes_gemini():
 
             for part in response.candidates[0].content.parts:
                 if part.inline_data:
-                    nombre = f"AI_{position}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+                    nombre = f"AI_{position}.png"
                     ruta = os.path.join(carpeta, nombre)
 
                     with open(ruta, "wb") as f:
