@@ -1,0 +1,90 @@
+[
+    {
+        "position": 0,
+        "titulo_real": "Mauritius tells UK it will wait until end-July for Chagos deal",
+        "descripcion_real": "Mauritius said it would wait up to the end of July for Britain to finalise a deal to hand over the Chagos Islands after London put the agreement on hold following objections from U.S. President Donald Trump.",
+        "imagen_real": "data/news/mauritius-tells-uk-it-will-wait-until-end-july-cha_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/uk/mauritius-tells-uk-it-will-wait-until-end-july-chagos-deal-2026-04-23/"
+    },
+    {
+        "position": 1,
+        "titulo_real": "EU leaders to discuss mutual assistance pact amid NATO doubts",
+        "descripcion_real": "European Union leaders will discuss the bloc's mutual assistance clause at a summit in Cyprus on Thursday, as U.S. President Donald Trump's criticism of traditional allies raises concerns over his commitment to NATO at a time of growing insecurity.",
+        "imagen_real": "data/news/eu-leaders-discuss-mutual-assistance-pact-amid-nat_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/business/aerospace-defense/eu-leaders-discuss-mutual-assistance-pact-amid-nato-doubts-2026-04-23/"
+    },
+    {
+        "position": 2,
+        "titulo_real": "Two Russian LGBT groups say courts declared them 'extremist'",
+        "descripcion_real": "Two Russian LGBT organisations said on Thursday they had been designated by separate courts as \"extremist\", part of a widening crackdown on the gay and transgender community.",
+        "imagen_real": "data/news/two-russian-lgbt-groups-say-courts-declared-them-e_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/business/media-telecom/two-russian-lgbt-groups-say-courts-declared-them-extremist-2026-04-23/"
+    },
+    {
+        "position": 3,
+        "titulo_real": "Prince Harry, on visit to Kyiv, tells Putin to 'stop this war'",
+        "descripcion_real": "Britain's Prince Harry made an unannounced visit to Kyiv on Thursday and called on Russia's President Vladimir Putin to end the war - a week after a massive Russian aerial attack on the country - and on U.S. President Donald Trump to show leadership to help resolve the conflict.",
+        "imagen_real": "data/news/prince-harry-arrives-kyiv-show-support-2026-04-23_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/prince-harry-arrives-kyiv-show-support-2026-04-23/"
+    },
+    {
+        "position": 4,
+        "titulo_real": "Tanzania inquiry says over 500 killed in last year's election violence",
+        "descripcion_real": "At least 518 people were killed in violence that broke out during Tanzania's elections last October, a government-appointed commission of inquiry said on Thursday, in the first official acknowledgment of the scale of the deadly unrest.",
+        "imagen_real": "data/news/tanzania-inquiry-says-over-500-killed-last-years-e_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/africa/tanzania-inquiry-says-over-500-killed-last-years-election-violence-2026-04-23/"
+    },
+    {
+        "position": 5,
+        "titulo_real": "Lebanon to seek ceasefire extension in US-hosted talks with Israel",
+        "descripcion_real": "The United States will host a second meeting between Lebanese and Israeli envoys on Thursday, with Beirut seeking the extension of a ceasefire between Israel and Hezbollah, a day after Israeli strikes killed at least five people including a journalist.",
+        "imagen_real": "data/news/lebanon-seek-ceasefire-extension-us-hosted-talks-w_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/middle-east/lebanon-seek-ceasefire-extension-us-hosted-talks-with-israel-2026-04-23/"
+    },
+    {
+        "position": 6,
+        "titulo_real": "Two trains collide in Denmark, injuring 18 people, emergency service says",
+        "descripcion_real": "Two local trains collided head-on north of the Danish capital Copenhagen on Thursday, injuring 18 people, five of them critically, emergency services said.",
+        "imagen_real": "data/news/several-people-injured-danish-train-crash-local-em_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/several-people-injured-danish-train-crash-local-emergency-service-says-2026-04-23/"
+    },
+    {
+        "position": 7,
+        "titulo_real": "Italy's contested deal to send migrants to Albania gets legal lifeline",
+        "descripcion_real": "Italy's deal to send migrants to Albania while their asylum claims are processed is compatible in principle with EU rules, an adviser to the bloc’s top court said on Thursday, offering a lifeline to a policy repeatedly challenged in the courts.",
+        "imagen_real": "data/news/italys-contested-deal-send-migrants-albania-gets-l_real.jpg",
+        "titulo_ia": "titulo ia por default",
+        "descripcion_ia": "descripcion ia por default",
+        "imagen_ia": "pendiente",
+        "fecha": "2026-04-23",
+        "link": "https://www.reuters.com/world/italys-contested-deal-send-migrants-albania-gets-legal-lifeline-2026-04-23/"
+    }
+]

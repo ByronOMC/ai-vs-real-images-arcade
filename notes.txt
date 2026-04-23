@@ -1,0 +1,9 @@
+Solucionando problemas SSL
+
+dentro de tu terminal con el entorno (env) activo:
+
+export SSL_CERT_FILE=$HOME/certs/netskope-ca.pem
+export REQUESTS_CA_BUNDLE=$HOME/certs/netskope-ca.pem
+
+Para instalar los paquetes de un archivo requirements.txt, usa este comando en tu terminal:
+    python3 install requirements.txt 
