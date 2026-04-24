@@ -1,0 +1,37 @@
+Correrlo con Cron del sistema 
+
+Cron es un programa que viene instalado en Mac y Linux (y en Windows con WSL). 
+Vive en segundo plano y su único trabajo es mirar un archivo de texto llamado crontab, 
+donde vos definís tareas con horario. Cuando llega la hora, las ejecuta automáticamente, 
+sin que tengas que hacer nada.
+
+¿Cómo funciona el crontab?
+
+El archivo tiene este formato:
+
+[minuto] [hora] [día del mes] [mes] [día semana]   comando
+
+# Cada 5 minutos
+*/5 * * * *  python3 /home/usuario/scraper.py --frecuencia=diario
+
+
+Seteo Local
+
+Paso 1 -> Obtener rutas
+    Ruta de python -> which python3 / asdf which python3 -> /Users/eduardo.valle/.asdf/installs/python/3.12.2/bin/python3
+    Ruta del file -> pwd -> /Users/eduardo.valle/Projects/Personal/arcade
+
+Paso 2 -> Agregar la tarea
+
+    Se abre cron -> crontab -e
+    'Recordar que abre con vim por lo que se necesitan los comandos ( i, esc, :wq )'
+
+    Comando 
+    */5 * * * * SSL_CERT_FILE=/Users/eduardo.valle/certs/netskope-ca.pem REQUESTS_CA_BUNDLE=/Users/eduardo.valle/certs/netskope-ca.pem /Users/eduardo.valle/.asdf/installs/python/3.12.2/bin/python3 /Users/eduardo.valle/Projects/Personal/arcade/scraper.py --frecuencia=diario >> /Users/eduardo.valle/Projects/Personal/arcade/cron.log 2>&1
+
+    Despues de guardar, Deberías ver: crontab: installing new crontab
+
+    Nota: El cron no lee el ~/.zshrc ( las variables que tengo configuradas en la terminal ), debo agregar las varas directamente en el cron
+
+Paso 3 -> Verificar que quedó guardado
+    crontab -l

@@ -2,13 +2,15 @@
 __pycache__/
 *.pyc
 
-# Virtual env
-env/
-
-
 # Mac
 .DS_Store
 
-# Debug / temp files
-data/jsons/debug_*
-data/jsons/reuters_source.html
+# Virtual env
+env/
+
+# Environment variables
+.env.dev
+
+# Logs de Scraping (HTML)
+data/html/bloqueo_*.html
+data/html/error_*.html

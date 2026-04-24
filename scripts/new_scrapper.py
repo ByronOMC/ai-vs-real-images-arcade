@@ -4,6 +4,7 @@ import urllib.parse
 import json
 import urllib3
 import base64
+import random
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -24,7 +25,7 @@ PATH_NEWS = os.path.join(BASE_DIR, "news")
 # --- CONFIGURACIÓN DE .ENV ---
 dotenv_path = os.path.join(BASE_PROJECT_PATH, ".env.dev")
 load_dotenv(dotenv_path)
-API_KEY = API_KEY = os.getenv("SCRAPING_ANT_KEY")
+API_KEY = os.getenv("SCRAPING_ANT_KEY")
 
 # Aseguramos que existan en la ubicación correcta
 for folder in [PATH_HTML, PATH_JSON, PATH_NEWS]:
@@ -105,53 +106,73 @@ def mantenimiento_limpieza_mensual():
     
     print("-------------------------------------------\n")
 
+def generar_configuracion_aleatoria():
+    # 1. Países con buenos pools de IPs residenciales
+    paises = ['us', 'gb', 'de']
+
+    # 2. Diferentes tiempos de espera (para no ser mecánicos)
+    esperas = [5000, 8000, 10000]
+    
+    # 3. Diferentes User-Agents (Windows, Mac, Linux)
+    user_agents = [
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ]
+
+    return {
+        "country": random.choice(paises),
+        "wait": random.choice(esperas),
+        "ua": random.choice(user_agents),
+        "antibot": "true"
+    }
+
 def obtener_html_ant(url, forzar=False):
     fecha_hoy = datetime.now().strftime("%Y-%m-%d")
     archivo_cache = os.path.join(PATH_HTML, f"reuters_{fecha_hoy}.html")
-
     # 1. Lógica de Caché
     if os.path.exists(archivo_cache) and not forzar:
         print(f"--- Usando caché local ({archivo_cache}) ---")
         with open(archivo_cache, "r", encoding="utf-8") as f:
             return f.read()
 
-    # 2. Configuración de ScrapingAnt
+    # 2. Generamos los valores aleatorios para hoy
+    config = generar_configuracion_aleatoria()
+    print(f"--- Configuración del día: País={config['country']}, Espera={config['wait']}ms, AntiBot={config['antibot']} ---")
+
+    # 3. Configuración de ScrapingAnt
     print(f"--- Solicitando a ScrapingAnt... (Espera unos 30-40 segundos) ---")
     encoded_url = urllib.parse.quote(url)
+    encoded_ua = urllib.parse.quote(config['ua'])
    
-  
+    # JS Snippet para scroll
     js_code = "window.scrollTo(0, document.body.scrollHeight);"
-    # Codificación limpia: 
-    # Aseguramos que no haya saltos de línea (\n) y que sea un string puro
     js_base64 = base64.b64encode(js_code.encode('utf-8')).decode('utf-8')
-
-    # Limpieza de seguridad:
-    # ScrapingAnt a veces falla con el padding (=). 
-    # Lo mejor es encodear toda la cadena para que los '=' se conviertan en '%3D'
     js_snippet_param = urllib.parse.quote(js_base64)
-    # Lo mismo para el selector (los corchetes [ ] también rompen URLs)
-    selector_param = urllib.parse.quote("li[data-testid='FeedListItem']")
+    
+    # Selector del feed
+    selector_param = urllib.parse.quote("section[data-testid='Body']")
 
     ant_url = (
         f"https://api.scrapingant.com/v2/general?"
         f"url={encoded_url}&"
         f"browser=true&"
         f"proxy_type=residential&"
-        f"proxy_country=us&"
-        f"wait_for_selector={selector_param}&"
-        f"js_snippet={js_snippet_param}&"
-        f"return_page_source=true"
+        f"proxy_country={config['country']}&"
+        f"antibot=true&" 
+        f"wait_for_selector={selector_param}"
     )
     
     headers = {'x-api-key': API_KEY}
     
     try:
-        # Aumentamos un poco el timeout por si el proxy residencial está lento
-        res = requests.get(ant_url, headers=headers, timeout=150, verify=False)
+        # Timeout extendido por si el proxy residencial es lento
+        res = requests.get(ant_url, headers=headers, timeout=180, verify=False)
         
         if res.status_code == 200:
             html_content = res.text
             
+            # Detección de bloqueos (DataDome / Captcha)
             if "captcha-delivery" in html_content or "DataDome" in html_content:
                 ruta_bloqueo = os.path.join(PATH_HTML, "bloqueo_captcha.html")
                 with open(ruta_bloqueo, "w", encoding="utf-8") as f:
@@ -159,10 +180,10 @@ def obtener_html_ant(url, forzar=False):
                 print(f"Bloqueo detectado. HTML de captcha guardado en: {ruta_bloqueo}")
                 return None
                 
-            if len(html_content) < 2000: # Reuters suele ser pesado, < 2kb es sospechoso
+            if len(html_content) < 5000: # Subimos el umbral a 5kb para Reuters
                 print("Advertencia: El HTML es sospechosamente corto.")
             
-            # Guardamos en la nueva ruta de caché
+            # Guardamos con éxito
             with open(archivo_cache, "w", encoding="utf-8") as f:
                 f.write(html_content)
                 
@@ -170,20 +191,19 @@ def obtener_html_ant(url, forzar=False):
             return html_content
         
         elif res.status_code == 422:
-            print("Error 422: Hay un problema con los parámetros (posiblemente el js_snippet).")
-            print(f"Respuesta del servidor: {res.text}") # Esto nos dirá qué parámetro exacto falla
+            print("Error 422: Problema de parámetros.")
+            print(f"Detalle: {res.text}")
             return None
             
         else:
             print(f"Error de ScrapingAnt: {res.status_code}")
-            # Si hay error, guardamos el log para ver qué pasó
             error_log = os.path.join(PATH_HTML, f"error_{res.status_code}.html")
             with open(error_log, "w", encoding="utf-8") as f:
                 f.write(res.text)
             return None
             
     except requests.exceptions.Timeout:
-        print("Error: La petición excedió el tiempo de espera (Timeout).")
+        print("Error: La petición excedió el tiempo de espera.")
     except Exception as e:
         print(f"Error inesperado: {e}")
         
@@ -351,106 +371,3 @@ if __name__ == "__main__":
     # 3. Finalmente el procesamiento
     if html:
         procesar_y_actualizar_json(html)
-
-
-
-
-
-# def mantenimiento_limpieza_mensual(nombre_json, path_reales):
-#     if not os.path.exists(nombre_json):
-#         return
-
-#     hoy = datetime.now()
-#     # CONDICIÓN DE DISPARO: Solo actúa si estamos en los primeros 3 días del mes
-#     # (Esto asegura que si el cron no corrió el día 1, lo haga el 2 o el 3)
-#     if hoy.day > 3:
-#         print(f"--- Hoy es {hoy.strftime('%d/%m')}: No toca limpieza (Solo al inicio de mes) ---")
-#         return
-
-#     print("--- INICIANDO LIMPIEZA DE CAMBIO DE MES ---")
-    
-#     with open(nombre_json, "r", encoding="utf-8") as f:
-#         datos = json.load(f)
-
-#     # Definimos el umbral: 3 días atrás desde hoy (que es inicio de mes)
-#     fecha_limite = hoy - timedelta(days=3)
-    
-#     datos_filtrados = []
-#     imagenes_a_mantener = set()
-
-#     for noticia in datos:
-#         try:
-#             fecha_noticia = datetime.strptime(noticia["fecha"], "%Y-%m-%d")
-            
-#             if fecha_noticia >= fecha_limite:
-#                 datos_filtrados.append(noticia)
-#                 if "imagen_real" in noticia:
-#                     imagenes_a_mantener.add(os.path.basename(noticia["imagen_real"]))
-#         except Exception as e:
-#             continue
-
-#     # Guardar cambios solo si hubo limpieza
-#     if len(datos_filtrados) < len(datos):
-#         with open(nombre_json, "w", encoding="utf-8") as f:
-#             json.dump(datos_filtrados, f, ensure_ascii=False, indent=4)
-
-#         # Limpieza física de fotos
-#         archivos_en_carpeta = os.listdir(path_reales)
-#         borrados = 0
-#         for archivo in archivos_en_carpeta:
-#             if archivo.endswith(".jpg") and archivo not in imagenes_a_mantener:
-#                 try:
-#                     os.remove(os.path.join(path_reales, archivo))
-#                     borrados += 1
-#                 except: pass
-#         print(f"✓ Limpieza mensual terminada. Se eliminó lo anterior al {fecha_limite.strftime('%Y-%m-%d')}")
-#     else:
-#         print("--- No hay datos antiguos para limpiar hoy ---")
-
-# def obtener_html_ant(url, forzar=False):
-#     if os.path.exists(ARCHIVO_HTML) and not forzar:
-#         print(f"--- Usando caché local ---")
-#         with open(ARCHIVO_HTML, "r", encoding="utf-8") as f:
-#             return f.read()
-
-#     print(f"--- Solicitando a ScrapingAnt... (Espera unos 30-40 segundos) ---")
-#     encoded_url = urllib.parse.quote(url)
-#     selector = "li[data-testid='FeedListItem']"
-#     js_snippet = "d2luZG93LnNjcm9sbFRvKDAsIGRvY3VtZW50LmJvZHkuc2Nyb2xsSGVpZ2h0KTs="
-    
-#     ant_url = (
-#         f"https://api.scrapingant.com/v2/general?"
-#         f"url={encoded_url}&"
-#         f"browser=true&"
-#         f"proxy_type=residential&"
-#         f"proxy_country=us&" # Forzar proxy de EE.UU. ayuda con Reuters
-#         f"wait_for_selector={selector}&"
-#         f"js_snippet={js_snippet}&"
-#         f"return_page_source=true"
-#     )
-    
-#     headers = {'x-api-key': API_KEY}
-    
-#     try:
-#         res = requests.get(ant_url, headers=headers, timeout=120, verify=False)
-#         print(f"--- Respuesta recibida. Status Code: {res.status_code} ---")
-        
-#         if res.status_code == 200:
-#             html_content = res.text
-#             if len(html_content) < 500:
-#                 print("Advertencia: El HTML recibido es demasiado corto. Posible bloqueo.")
-            
-#             with open(ARCHIVO_HTML, "w", encoding="utf-8") as f:
-#                 f.write(html_content)
-#             print(f"HTML guardado exitosamente.")
-#             return html_content
-#         else:
-#             print(f"Error de ScrapingAnt: {res.status_code}")
-#             print(f"Detalle: {res.text[:200]}")
-#             return None
-            
-#     except requests.exceptions.Timeout:
-#         print("Error: La petición excedió el tiempo de espera (Timeout).")
-#     except Exception as e:
-#         print(f"Error inesperado: {e}")
-#     return None

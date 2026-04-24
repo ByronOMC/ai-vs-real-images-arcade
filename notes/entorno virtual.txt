@@ -1,0 +1,26 @@
+Importante ejecutar en la raiz del proyecto
+
+El beneficio de crear un entorno virtual es que no afecta al proyecto, esto en caso que se esten haciendo 
+pruebas 
+
+Crear el entorno virtual
+    python3 -m venv env
+
+Activar el entorno
+    source env/bin/activate
+
+Validar si estoy apuntando al python del entorno virtual ( debe apuntar a la ruta actual )
+    which python3 
+
+Solucionar sesion actual en caso que el comando which python3 no apunte al entorno virtual 
+    export PATH="$(pwd)/env/bin:$PATH"
+
+Cómo validar qué hay instalado ( en el entorno virtual )
+    pip list
+
+Comentario -> El comando "pip freeze" 
+Te muestra los paquetes con su versión exacta (formato ideal para generar el requirements.txt).
+
+Si en algún momento quieres "salir" del entorno virtual para volver al Python global, simplemente escribe
+    deactivate
+

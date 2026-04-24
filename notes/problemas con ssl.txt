@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------------
+Problemas con los certificados ( Keychain Access )
+---------------------------------------------------------------------------------
+
+Descargar el certificado -> caadmin.netskope.com como .pem 
+Y copiarlo en algun lugar, yo elegi ~/certs/
+
+Configuracion permanente 
+
+export SSL_CERT_FILE=$HOME/certs/netskope-ca.pem
+export REQUESTS_CA_BUNDLE=$HOME/certs/netskope-ca.pem
+
+Guardarlo en zsh 
+
+echo 'export SSL_CERT_FILE=$HOME/certs/netskope-ca.pem' >> ~/.zshrc
+echo 'export REQUESTS_CA_BUNDLE=$HOME/certs/netskope-ca.pem' >> ~/.zshrc
+source ~/.zshrc
+
+Test
+
+python -c "import requests; print(requests.get('https://news.ycombinator.com').status_code)"
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
